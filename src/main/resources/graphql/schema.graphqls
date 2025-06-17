@@ -1,0 +1,27 @@
+type Query {
+    findAllUser: [User]
+}
+
+
+type Mutation {
+    createUser(input: UserInput): User
+}
+
+type User {
+    id: ID
+    name: String
+    lastName: String
+    courses: [Course!]!
+}
+
+type Course {
+    id: ID
+    name: String
+    teacherName: String
+}
+
+input UserInput {
+    name: String
+    lastName: String
+    courseIds: [String]
+}

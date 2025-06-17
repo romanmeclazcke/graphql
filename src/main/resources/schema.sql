@@ -1,0 +1,22 @@
+-- Crear tabla COURSE
+CREATE TABLE IF NOT EXISTS COURSE (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(255),
+    teacher_name VARCHAR(255)
+);
+
+-- Crear tabla USUARIOS
+CREATE TABLE IF NOT EXISTS USUARIOS (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(255),
+    last_name VARCHAR(255)
+);
+
+-- Crear tabla de relación USER_COURSES
+CREATE TABLE IF NOT EXISTS USER_COURSES (
+    user_id BIGINT,
+    courses_id BIGINT,
+    PRIMARY KEY (user_id, courses_id),
+    FOREIGN KEY (user_id) REFERENCES USUARIOS(id) ON DELETE CASCADE,
+    FOREIGN KEY (courses_id) REFERENCES COURSE(id) ON DELETE CASCADE
+);
