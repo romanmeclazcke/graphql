@@ -1,45 +1,38 @@
 package org.example.graphql.Controller;
 
-import org.example.graphql.Entity.Course;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.graphql.Entity.User;
 import org.example.graphql.Input.UserInput;
-import org.example.graphql.Repository.CourseRepository;
-import org.example.graphql.Repository.UserRepository;
+import org.example.graphql.Model.Connection;
+import org.example.graphql.Model.Edge;
+import org.example.graphql.Service.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
 
+    @Autowired
+    private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CourseRepository courseRepository;
 
 
     @QueryMapping
-    public List<User> findAllUser(){
-        return this.userRepository.findAll();
+    public Connection<Edge> findAllUser(
+            @Argument("size") Integer size,
+            @Argument("after") String after,
+            @Argument("first") Integer first) {
+        return this.userService.findAllUser(size, after, first);
     }
 
     @MutationMapping
     public User createUser(@Argument("input") UserInput input) {
-        List<Long> ids = input.getCourseIds().stream().map(Long::valueOf).collect(Collectors.toList());
-        List<Course> courses = this.courseRepository.findAllById(ids);
-
-        User user = new User();
-        user.setName(input.getName());
-        user.setLastName(input.getLastName());
-        user.setCourses(courses);
-        return userRepository.save(user);
+       return this.userService.createUser(input);
     }
 }
 

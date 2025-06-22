@@ -1,5 +1,5 @@
 type Query {
-    findAllUser: [User]
+    findAllUser(size: Int, after: String, first: Int): UserConnection
 }
 
 
@@ -12,6 +12,25 @@ type User {
     name: String
     lastName: String
     courses: [Course!]!
+}
+
+
+type UserConnection {
+    edges: [UserEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type UserEdge {
+    node: User!
+    cursor: String!
+}
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
 }
 
 type Course {
