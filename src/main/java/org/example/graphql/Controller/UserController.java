@@ -3,6 +3,7 @@ package org.example.graphql.Controller;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.graphql.Entity.User;
+import org.example.graphql.Input.UserFilters;
 import org.example.graphql.Input.UserInput;
 import org.example.graphql.Model.Connection;
 import org.example.graphql.Model.Edge;
@@ -23,11 +24,13 @@ public class UserController {
 
 
     @QueryMapping
-    public Connection<Edge> findAllUser(
+    public Connection<Edge<User>> findAllUser(
             @Argument("size") Integer size,
             @Argument("after") String after,
-            @Argument("first") Integer first) {
-        return this.userService.findAllUser(size, after, first);
+            @Argument("first") Integer first,
+            @Argument("filters") UserFilters filters
+    ) {
+        return this.userService.findAllUser(size, after, first,filters);
     }
 
     @MutationMapping

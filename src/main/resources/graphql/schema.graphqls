@@ -1,5 +1,5 @@
 type Query {
-    findAllUser(size: Int, after: String, first: Int): UserConnection
+    findAllUser(size: Int, after: String, first: Int,  filters: UserFilters): UserConnection
 }
 
 
@@ -14,6 +14,12 @@ type User {
     courses: [Course!]!
 }
 
+input UserFilters{
+    id: ID
+    name:String
+    lastName: String
+    courseIds: String
+}
 
 type UserConnection {
     edges: [UserEdge!]!
